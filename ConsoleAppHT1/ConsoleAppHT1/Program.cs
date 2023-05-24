@@ -8,28 +8,34 @@ namespace ConsoleAppHT1
 {
     enum TransactionType
     {
-        Buy=1, Sell=-1
+        Buy = 1, Sell = -1
     }
     class Program
     {
         static void Main(string[] args)
         {
             int nominal;
-            float price, curVal;
+            double priceTrade, priceOrg; 
+            double profitLoss, currentValue; 
             TransactionType transType;
 
             Console.WriteLine("Please enter the nominal of the transaction:");
             nominal = int.Parse(Console.ReadLine());
 
             Console.WriteLine("Please enter the trading price (decimals separated by comma):");
-            price = float.Parse(Console.ReadLine());
+            priceTrade = double.Parse(Console.ReadLine());
+
+            Console.WriteLine("Please enter the original or booked price (decimals separated by comma):");
+            priceOrg = double.Parse(Console.ReadLine());
 
             Console.WriteLine($"Please enter the type of transaction: {TransactionType.Buy} or {TransactionType.Sell} ");
-            transType= (TransactionType)Enum.Parse(typeof(TransactionType), Console.ReadLine(), true);
+            transType = (TransactionType)Enum.Parse(typeof(TransactionType), Console.ReadLine(), true);
 
-            curVal = nominal * price * ((int)transType);
-        
-            Console.WriteLine("The calculated current value of your transaction is {0}", curVal);
+            currentValue = nominal * priceTrade * ((int)transType);
+            profitLoss = transType.Equals(TransactionType.Sell) ? (priceTrade - priceOrg)*nominal : 0;
+
+            Console.WriteLine("The calculated current value of your transaction is {0}", currentValue);
+            Console.WriteLine($"The calculated profit loss of your {transType} transaction is {profitLoss}");
             Console.ReadLine();
         }
     }
