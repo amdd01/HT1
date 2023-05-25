@@ -6,13 +6,39 @@ using System.Threading.Tasks;
 
 namespace ConsoleAppHT1
 {
+    enum TransactionType
+    {
+        Buy = 1, Sell = -1
+    }
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello world!");
-            Console.WriteLine("Feature branch 1 - development 1");
-            Console.WriteLine("Feature branch 1 - development 2");
+            int nominal;
+            decimal priceTrade, priceOrg, profitLoss, currentValue; 
+            TransactionType transType;
+
+            //Gather input
+            Console.WriteLine("Please enter the nominal of the transaction:");
+            nominal = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Please enter the trading price (decimals separated by comma):");
+            priceTrade = decimal.Parse(Console.ReadLine());
+
+            Console.WriteLine("Please enter the original or booked price (decimals separated by comma):");
+            priceOrg = decimal.Parse(Console.ReadLine());
+
+            Console.WriteLine($"Please enter the type of transaction: {TransactionType.Buy} or {TransactionType.Sell} ");
+            transType = (TransactionType)Enum.Parse(typeof(TransactionType), Console.ReadLine(), true);
+            
+            //Do the calculations
+            currentValue = nominal * priceTrade * ((int)transType);
+            profitLoss = transType.Equals(TransactionType.Sell) ? (priceTrade - priceOrg)*nominal : 0;
+
+            //Display results
+            Console.WriteLine($"The calculated current value of your transaction is {currentValue}" );
+            Console.WriteLine($"The profit/loss of your {transType} transaction is {profitLoss}");
+            Console.ReadLine();
         }
     }
 }
